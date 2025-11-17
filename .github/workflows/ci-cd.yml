@@ -1,0 +1,42 @@
+name: CI-CD Calculadora Java
+
+on:
+  push:
+    branches: [ "main" ]
+  pull_request:
+    branches: [ "main" ]
+
+jobs:
+  build-and-test:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout do código
+        uses: actions/checkout@v4
+
+      - name: Configurar JDK 21
+        uses: actions/setup-java@v4
+        with:
+          distribution: 'temurin'
+          java-version: '21'
+
+      - name: Compilar e rodar testes (regressão)
+        run: mvn -B test --file pom.xml
+
+  deploy:
+    needs: build-and-test
+    runs-on: ubuntu-latest
+    if: github.ref == 'refs/heads/main'
+
+    steps:
+      - name: Checkout do código
+        uses: actions/checkout@v4
+
+      - name: Build de produção (empacotar jar)
+        run: |
+          echo "Executando build de produção..."
+          mvn -B package --file pom.xml
+
+      - name: Simulação de deploy
+        run: |
+          echo "Deploy automatizado concluído (simulação)."
