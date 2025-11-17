@@ -32,11 +32,7 @@ jobs:
       - name: Checkout do código
         uses: actions/checkout@v4
 
-      - name: Build de produção (empacotar jar)
-        run: |
-          echo "Executando build de produção..."
-          mvn -B package --file pom.xml
-
       - name: Simulação de deploy
         run: |
-          echo "Deploy automatizado concluído (simulação)."
+          echo "Deploy automático realizado com sucesso (simulado)."
+
